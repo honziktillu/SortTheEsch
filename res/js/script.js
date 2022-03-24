@@ -5,6 +5,7 @@ const cursor = new Cursor();
 const background = new Background();
 const stats = new Stats("2.Ai");
 const collisionObjects = [];
+const testEntity = new Entity("red", "Esch", []);
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -23,10 +24,10 @@ document.addEventListener("keyup", (e) => {
   keys[e.code] = false;
 });
 
-canvas.addEventListener("mousemove", (e) => {
+document.addEventListener("mousemove", (e) => {
   const canvasPos = canvas.getBoundingClientRect();
-  mouseX = Math.round(e.clientX - canvasPos.left);
-  mouseY = Math.round(e.clientY - canvasPos.top);
+  mouseX = (canvas.width / 100) * (((e.clientX - canvasPos.left) / (window.innerWidth - canvasPos.left * 2) / 100) * 10000);
+  mouseY = (canvas.height / 100) * (((e.clientY - canvasPos.top) / (window.innerHeight - canvasPos.top * 2) / 100) * 10000);
 });
 
 const resizeCanvas = () => {
@@ -108,6 +109,7 @@ const spawnEntities = (numberOfEntities) => {
 }
 
 const renderEntities = () => {
+  testEntity.draw(ctx);
   collisionObjects.forEach((object) => {
     object.draw(ctx);
   });
@@ -116,5 +118,6 @@ const renderEntities = () => {
 window.onload = () => {
   resizeCanvas();
   //spawnEntities(10);
+  testEntity.enter();
   window.requestAnimationFrame(gameLoop);
 };
